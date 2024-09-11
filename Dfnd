@@ -1,0 +1,29 @@
+```python
+import os
+import subprocess
+
+
+def check_dependencies():
+    try:
+        print("Checking for known vulnerabilities in dependencies...")
+        result = subprocess.run(['safety', 'check'], capture_output=True, text=True)
+        if result.returncode == 0:
+            print("No known vulnerabilities found in dependencies.")
+        else:
+            print("Potential vulnerabilities found in dependencies:")
+            print(result.stdout)
+    except Exception as e:
+        print(f"Failed to run safety check: {e}")
+
+
+def static_code_analysis(directory):
+    try:
+        print(f"Running static code analysis on {directory}...")
+        result = subprocess.run(['bandit', '-r', directory], capture_output=True, text=True)
+        if result.returncode == 0:
+            print("No significant security issues found in the code.")
+        else:
+            print("Potential security issues found in the code:")
+            print(result.stdout)
+    except Exception as e:
+        print(f"Failed to run bandit: {e}")
